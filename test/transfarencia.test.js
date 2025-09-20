@@ -5,11 +5,15 @@ require('dotenv').config()
 
 
 describe('Transferências', () => {
-   describe('POST /transferencias', () => {
-    it('Deve retornar sucesso com 201 quando o valor for igual ou acima de 10,00', async() => {
-    // capturando o token para poder realizar a transfrencia 
+   describe('POST /transferencias',  () => {
+    let token  
+
+    beforeEach(async () =>{
+        token = await obterToken('julio.lima','123456')
+    })
     
-    const token = await obterToken('julio.lima','123456')    
+    it('Deve retornar sucesso com 201 quando o valor for igual ou acima de 10,00', async() => {
+    
     
     const resposta = await request(process.env.BASE_URL)  
             .post('/transferencias')
@@ -28,7 +32,7 @@ describe('Transferências', () => {
     })
      
       it('Deve retornar falha com 422 quando o valor menor que 10,00', async () => {
-        const token = await obterToken('julio.lima','123456')         
+        
     
         const resposta = await request('http://localhost:3000')  
             .post('/transferencias')
