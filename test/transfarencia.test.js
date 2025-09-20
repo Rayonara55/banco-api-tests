@@ -1,12 +1,12 @@
 const request = require('supertest')
 const { expect } = require('chai')
-
+require('dotenv').config()
 
 describe('Transferências', () => {
    describe('POST /transferencias', () => {
     it('Deve retornar sucesso com 201 quando o valor for igual ou acima de 10,00', async() => {
     // capturando o token para poder realizar a transfrencia 
-    const respostaLogin = await request('http://localhost:3000')
+    const respostaLogin = await request(process.env.BASE_URL)
             .post('/login')
             .set('Content-Type', 'application/json')
             .send({
@@ -15,7 +15,7 @@ describe('Transferências', () => {
             })   
     const token = respostaLogin.body.token        
     
-    const resposta = await request('http://localhost:3000')  
+    const resposta = await request(process.env.BASE_URL)  
             .post('/transferencias')
             .set('Content-Type', 'application/json')
             .set('Authorization', `Bearer ${token}`)
